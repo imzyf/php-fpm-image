@@ -57,6 +57,6 @@ jobs:
         with:
           file: Dockerfile-${{ matrix.php_version }}
           platforms: linux/amd64,linux/arm64,linux/386
-          push: ${{ (github.repository == 'yifans/php-fpm-image') && (github.ref == 'refs/heads/master') }}
+          push: ${{ (github.repository == 'imzyf/php-fpm-image') && (github.ref == 'refs/heads/main') }}
           tags: ${{ steps.meta.outputs.tags }}
 

@@ -27,7 +27,7 @@ jobs:
         uses: docker/metadata-action@v4.1.1
         with:
           images: |
-            yifans/php-fpm-image
+            yifans/php-fpm
           flavor: |
             suffix=-${{ matrix.php_version }}
           tags: |

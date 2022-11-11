@@ -40,7 +40,7 @@ RUN set -xe; \
       fi && \
       # Install the zip extension
       docker-php-ext-install zip && \
-      php -m | grep -q 'zip'
+      php -m | grep -q 'zip' 
 
 #
 #--------------------------------------------------------------------------
@@ -57,7 +57,7 @@ RUN set -xe; \
 # SOAP:
 ###########################################################################
 
-ARG INSTALL_SOAP=true
+ARG INSTALL_SOAP=false
 
 RUN if [ ${INSTALL_SOAP} = true ]; then \
     # Install the soap extension
@@ -165,15 +165,15 @@ if [ ${INSTALL_SWOOLE} = true ]; then \
       elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
         echo '' | pecl -q install swoole-4.3.6; \
       elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ]; then \
-        echo '' | pecl -q install -D 'enable-openssl="yes" enable-http2="yes" enable-mysqlnd="yes" enable-swoole-curl="yes"' swoole-4.5.11; \
+        echo '' | pecl -q install -D 'enable-openssl="yes" enable-http2="yes" enable-mysqlnd="yes"' swoole-4.5.11; \
       elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
-        echo '' | pecl -q install -D 'enable-openssl="yes" enable-http2="yes" enable-mysqlnd="yes" enable-swoole-curl="yes"' swoole-4.8.12; \
+        echo '' | pecl -q install -D 'enable-openssl="yes" enable-http2="yes" enable-mysqlnd="yes"' swoole-4.8.12; \
       else \
-        echo '' | pecl -q install -D 'enable-openssl="yes" enable-http2="yes" enable-mysqlnd="yes" enable-swoole-curl="yes"' swoole; \
+        echo '' | pecl -q install -D 'enable-openssl="yes" enable-http2="yes" enable-mysqlnd="yes"' swoole; \
       fi; \
       docker-php-ext-enable swoole; \
-      php -m | grep -q 'swoole'; \
-    fi
+      php -m | grep -q 'swoole'; \ 
+  ;fi 
 
 
 ###########################################################################

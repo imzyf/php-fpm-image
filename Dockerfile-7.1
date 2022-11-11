@@ -53,3 +53,7 @@ RUN set -eux; \
             --with-freetype-dir=/usr/include/freetype2; \
     docker-php-ext-install gd; \
     php -r 'var_dump(gd_info());'
+
+# upgrade pear
+RUN set -eux; \
+    pear upgrade --force pear

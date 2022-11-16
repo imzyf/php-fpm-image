@@ -13,6 +13,8 @@ ARG LARADOCK_PHP_VERSION=7.1
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
 
+RUN pear version
+
 # always run apt update when start and after add new source list, then clean up at end.
 RUN set -xe; \
     apt-get update -yqq && \
@@ -158,7 +160,7 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 
 ARG INSTALL_SWOOLE=true
 RUN set -eux; \
-if [ ${INSTALL_SWOOLE} = true ]; then \
+  if [ ${INSTALL_SWOOLE} = true ]; then \
       # Install Php Swoole Extension
       if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
         echo '' | pecl -q install swoole-2.0.10; \

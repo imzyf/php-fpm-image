@@ -13,6 +13,7 @@ ARG LARADOCK_PHP_VERSION=7.1
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
 
+# show pear verson
 RUN pear version
 
 # always run apt update when start and after add new source list, then clean up at end.
@@ -162,10 +163,10 @@ ARG INSTALL_SWOOLE=true
 RUN set -eux; \
   if [ ${INSTALL_SWOOLE} = true ]; then \
       # Install Php Swoole Extension
-      pecl install -D 'enable-openssl="yes" enable-http2="yes" enable-mysqlnd="yes"' swoole-4.5.11; \
+      echo '' | pecl install -D 'enable-openssl="yes" enable-http2="yes" enable-mysqlnd="yes"' swoole-4.5.11; \
       docker-php-ext-enable swoole; \
       php -m | grep -q 'swoole'; \ 
-  ;fi
+  fi
 
 ###########################################################################
 # MongoDB:

@@ -4,11 +4,11 @@
 #--------------------------------------------------------------------------
 #
 
-FROM yifans/php-fpm:main-7.1
+FROM yifans/php-fpm:main-7.4
 
 LABEL maintainer="Yifans_Z <168@yifans.com>"
 
-ARG LARADOCK_PHP_VERSION=7.1
+ARG LARADOCK_PHP_VERSION=7.4
 
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
@@ -174,9 +174,8 @@ RUN set -eux; \
         echo '' | pecl -q install -D 'enable-openssl="yes" enable-http2="yes" enable-mysqlnd="yes"' swoole; \
       fi; \
       docker-php-ext-enable swoole; \
-      php -m | grep -q 'swoole'; \ 
-  ;fi 
-
+      php -m | grep -q 'swoole'; \
+  fi
 
 ###########################################################################
 # MongoDB:

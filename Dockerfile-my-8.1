@@ -4,16 +4,15 @@
 #--------------------------------------------------------------------------
 #
 
-FROM yifans/php-fpm:main-7.1
+FROM yifans/php-fpm:main-8.1
 
 LABEL maintainer="Yifans_Z <168@yifans.com>"
 
-ARG LARADOCK_PHP_VERSION=7.1
+ARG LARADOCK_PHP_VERSION=8.1
 
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
 
-# show pear verson
 RUN pear version
 
 # always run apt update when start and after add new source list, then clean up at end.

@@ -15,8 +15,8 @@ jobs:
     strategy:
       matrix:
         # php_version: ["7.1", "7.4", "8.1"]
-        # php_version: ["my-7.1", "my-7.4", "my-8.1"]
-        php_version: ["my-7.1"]
+        php_version: ["my-7.1", "my-7.4", "my-8.1"]
+        # php_version: ["my-7.1"]
     steps:
       -
         # https://github.com/actions/checkout

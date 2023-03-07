@@ -11,9 +11,9 @@
 - https://raw.githubusercontent.com/laradock/php-fpm/master/Dockerfile-7.4
 - https://raw.githubusercontent.com/laradock/php-fpm/master/Dockerfile-8.1
 
-
-```
-
+```bash
+docker run --rm --name=n81 yifans/php-fpm:main-nginx-8.1
+docker build -f=Dockerfile-nginx-8.1 ./.
 ```
 
 ```bash

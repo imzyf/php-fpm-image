@@ -205,16 +205,6 @@ RUN if [ ${INSTALL_RDKAFKA} = true ]; then \
 ;fi
 
 ###########################################################################
-# ping:
-###########################################################################
-
-ARG INSTALL_PING=true
-
-RUN if [ ${INSTALL_PING} = true ]; then \
-    apt-get -y install inetutils-ping \
-;fi
-
-###########################################################################
 # PHP DECIMAL:
 ###########################################################################
 
@@ -243,7 +233,10 @@ RUN set -xe; php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
 #--------------------------------------------------------------------------
 #
 
-COPY ./nginx/php-81.ini /usr/local/etc/php/conf.d
+COPY ./laravel.ini /usr/local/etc/php/conf.d
+COPY ./xlaravel.pool.conf /usr/local/etc/php-fpm.d/
+
+COPY ./nginx/php8.1.ini /usr/local/etc/php/php.ini
 
 # Clean up
 RUN apt-get clean && \

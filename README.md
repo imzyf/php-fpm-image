@@ -21,3 +21,8 @@ uname -a
 cat /proc/version
 cat /etc/issue
 ```
+
+```
+/etc/init.d/cron start
+echo '* * * * * echo 22 >> /tmp/xxx.txt' > /etc/cron.d/crontab
+```

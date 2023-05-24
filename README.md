@@ -14,6 +14,8 @@
 ```bash
 docker run --rm --name=n81 yifans/php-fpm:main-nginx-8.1
 docker build -f=Dockerfile-nginx-8.1 ./.
+
+docker buildx build -f=Dockerfile-8.1 -t yifans/php-fpm:main-8.1 --platform=linux/arm64,linux/amd64 . --push
 ```
 
 ```bash

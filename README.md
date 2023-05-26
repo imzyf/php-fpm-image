@@ -6,16 +6,30 @@
 
 ## laradock/php-fpm Origin
 
-- https://github.com/laradock/laradock/tree/master/php-fpm
-- https://raw.githubusercontent.com/laradock/php-fpm/master/Dockerfile-7.1
-- https://raw.githubusercontent.com/laradock/php-fpm/master/Dockerfile-7.4
-- https://raw.githubusercontent.com/laradock/php-fpm/master/Dockerfile-8.1
+- <https://github.com/laradock/laradock/tree/master/php-fpm>
+- <https://raw.githubusercontent.com/laradock/php-fpm/master/Dockerfile-7.1>
+- <https://raw.githubusercontent.com/laradock/php-fpm/master/Dockerfile-7.4>
+- <https://raw.githubusercontent.com/laradock/php-fpm/master/Dockerfile-8.1>
 
 ```bash
 docker run --rm --name=n81 yifans/php-fpm:main-nginx-8.1
 docker build -f=Dockerfile-nginx-8.1 ./.
 
+docker buildx build -f=Dockerfile-7.1 -t yifans/php-fpm:main-7.1 --platform=linux/arm64,linux/amd64 . --push
 docker buildx build -f=Dockerfile-8.1 -t yifans/php-fpm:main-8.1 --platform=linux/arm64,linux/amd64 . --push
+
+
+docker buildx build -f=Dockerfile-my-8.1 -t yifans/php-fpm:arm-my-8.1 . --push
+
+docker buildx build -f=Dockerfile-7.1 -t yifans/php-fpm:arm-7.1 . --push
+docker buildx build -f=Dockerfile-my-7.1 -t yifans/php-fpm:arm-my-7.1 . --push
+```
+
+## ARM
+
+```bash
+docker buildx build -f=Dockerfile-my-8.1 -t yifans/php-fpm:arm-my-8.1 . --push
+
 ```
 
 ```bash

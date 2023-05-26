@@ -6,16 +6,16 @@ on:
   pull_request:
     branches:
       - 'main'
-  schedule:
-  - cron: 0 0 * * 6
+  # schedule:
+  # - cron: 0 0 * * 6
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php_version: ["nginx-8.1"]
-        # php_version: ["7.1", "7.4", "8.1"]
+        # php_version: ["nginx-8.1"]
+        php_version: ["7.1", "8.1"]
         # php_version: ["my-7.1", "my-7.4", "my-8.1"]
         # php_version: ["nginx-8.1"]
     steps:
@@ -61,4 +61,5 @@ jobs:
           file: Dockerfile-${{ matrix.php_version }}
           push: ${{ (github.repository == 'imzyf/php-fpm-image') && (github.ref == 'refs/heads/main') }}
           tags: ${{ steps.meta.outputs.tags }}
+          platforms: linux/amd64,linux/arm64
 

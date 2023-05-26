@@ -13,6 +13,7 @@ ARG LARADOCK_PHP_VERSION=7.4
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
 
+# show pear verson
 RUN pear version
 
 # always run apt update when start and after add new source list, then clean up at end.
@@ -79,7 +80,11 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
   # Install the xdebug extension
   # https://xdebug.org/docs/compat
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] || { [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && { [ $(php -r "echo PHP_MINOR_VERSION;") = "4" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "3" ] ;} ;}; then \
-    pecl install xdebug-3.1.4; \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+      pecl install xdebug-3.2.1; \
+    else \
+      pecl install xdebug-3.1.6; \
+    fi; \
   else \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       pecl install xdebug-2.5.5; \
@@ -290,24 +295,6 @@ RUN set -xe; \
 ;fi
 
 ###########################################################################
-# IonCube Loader:
-###########################################################################
-
-ARG INSTALL_IONCUBE=false
-
-RUN if [ ${INSTALL_IONCUBE} = true ]; then \
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") != "8" ]; then \
-      # Install the php ioncube loader
-      curl -L -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
-      && tar zxpf /tmp/ioncube_loaders_lin_x86-64.tar.gz -C /tmp \
-      && mv /tmp/ioncube/ioncube_loader_lin_${LARADOCK_PHP_VERSION}.so $(php -r "echo ini_get('extension_dir');")/ioncube_loader.so \
-      && printf "zend_extension=ioncube_loader.so\n" > $PHP_INI_DIR/conf.d/0ioncube.ini \
-      && rm -rf /tmp/ioncube* \
-      && php -m | grep -oiE '^ionCube Loader$' \
-    ;fi \
-;fi
-
-###########################################################################
 # Opcache:
 ###########################################################################
 
@@ -359,18 +346,6 @@ RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
 ;fi
 
 ###########################################################################
-# LDAP:
-###########################################################################
-
-ARG INSTALL_LDAP=false
-
-RUN if [ ${INSTALL_LDAP} = true ]; then \
-    apt-get install -yqq libldap2-dev && \
-    docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
-    docker-php-ext-install ldap \
-;fi
-
-###########################################################################
 # Image optimizers:
 ###########################################################################
 
@@ -413,7 +388,6 @@ RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
     docker-php-ext-enable imagick; \
     php -m | grep -q 'imagick' \
 ;fi
-
 
 ###########################################################################
 # Calendar:
@@ -625,9 +599,9 @@ ARG INSTALL_CACHETOOL=false
 
 RUN if [ ${INSTALL_CACHETOOL} = true ]; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") -ge 1 ]; then \
-            curl -sO http://gordalina.github.io/cachetool/downloads/cachetool.phar; \
+            curl -sO https://gordalina.github.io/cachetool/downloads/cachetool.phar; \
     else \
-        curl http://gordalina.github.io/cachetool/downloads/cachetool-3.2.1.phar -o cachetool.phar; \
+        curl https://gordalina.github.io/cachetool/downloads/cachetool-3.2.1.phar -o cachetool.phar; \
     fi && \
     chmod +x cachetool.phar && \
     mv cachetool.phar /usr/local/bin/cachetool \
@@ -694,34 +668,14 @@ RUN set -eux; \
     fi
 
 ###########################################################################
-# New Relic for PHP:
-###########################################################################
-ARG NEW_RELIC=false
-ARG NEW_RELIC_KEY=''
-ARG NEW_RELIC_APP_NAME=''
-
-RUN if [ ${NEW_RELIC} = true ]; then \
-  curl -L http://download.newrelic.com/php_agent/release/newrelic-php5-9.18.1.303-linux.tar.gz | tar -C /tmp -zx && \
-  export NR_INSTALL_USE_CP_NOT_LN=1 && \
-  export NR_INSTALL_SILENT=1 && \
-  /tmp/newrelic-php5-*/newrelic-install install && \
-  rm -rf /tmp/newrelic-php5-* /tmp/nrinstall* && \
-  sed -i \
-  -e 's/"REPLACE_WITH_REAL_KEY"/"'${NEW_RELIC_KEY}'"/' \
-  -e 's/newrelic.appname = "PHP Application"/newrelic.appname = "'${NEW_RELIC_APP_NAME}'"/' \
-  -e 's/;newrelic.daemon.app_connect_timeout =.*/newrelic.daemon.app_connect_timeout=15s/' \
-  -e 's/;newrelic.daemon.start_timeout =.*/newrelic.daemon.start_timeout=5s/' \
-  /usr/local/etc/php/conf.d/newrelic.ini \
-;fi
-
-###########################################################################
 # Downgrade Openssl:
 ###########################################################################
 
 ARG DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=false
+ARG DOWNGRADE_OPENSSL_TLS_VERSION=1.2
 
 RUN if [ ${DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL} = true ]; then \
-    sed -i 's,^\(MinProtocol[ ]*=\).*,\1'TLSv1.2',g' /etc/ssl/openssl.cnf \
+    sed -i 's,^\(MinProtocol[ ]*=\).*,\1'TLSv${DOWNGRADE_OPENSSL_TLS_VERSION}',g' /etc/ssl/openssl.cnf \
     && \
     sed -i 's,^\(CipherString[ ]*=\).*,\1'DEFAULT@SECLEVEL=1',g' /etc/ssl/openssl.cnf\
 ;fi
@@ -773,7 +727,7 @@ RUN if [ ${INSTALL_DNSUTILS} = true ]; then \
 # Check PHP version:
 ###########################################################################
 
-RUN set -xe; php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
+RUN set -xe; php -v | grep -q "PHP ${LARADOCK_PHP_VERSION}."
 
 #
 #--------------------------------------------------------------------------

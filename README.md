@@ -7,6 +7,7 @@
 ## laradock/php-fpm Origin
 
 - <https://github.com/laradock/laradock/tree/master/php-fpm>
+- <https://github.com/laradock/php-fpm>
 - <https://raw.githubusercontent.com/laradock/php-fpm/master/Dockerfile-7.1>
 - <https://raw.githubusercontent.com/laradock/php-fpm/master/Dockerfile-7.4>
 - <https://raw.githubusercontent.com/laradock/php-fpm/master/Dockerfile-8.1>

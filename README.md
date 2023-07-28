@@ -14,15 +14,14 @@
 
 ```bash
 docker build -f=Dockerfile-my-7.1 ./.
+docker build -f=Dockerfile-my-7.4 ./.
+docker build -f=Dockerfile-my-8.1 ./.
 
 docker buildx build -f=Dockerfile-7.1 -t yifans/php-fpm:main-7.1 --platform=linux/arm64,linux/amd64 . --push
 docker buildx build -f=Dockerfile-8.1 -t yifans/php-fpm:main-8.1 --platform=linux/arm64,linux/amd64 . --push
 
 
 docker buildx build -f=Dockerfile-my-8.1 -t yifans/php-fpm:arm-my-8.1 . --push
-
-docker buildx build -f=Dockerfile-7.1 -t yifans/php-fpm:arm-7.1 . --push
-docker buildx build -f=Dockerfile-my-7.1 -t yifans/php-fpm:arm-my-7.1 . --push
 ```
 
 ## ARM

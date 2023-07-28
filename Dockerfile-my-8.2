@@ -4,21 +4,16 @@
 #--------------------------------------------------------------------------
 #
 
-ARG LARADOCK_PHP_VERSION=7.1
+ARG LARADOCK_PHP_VERSION=8.2
 ARG BASE_IMAGE_TAG_PREFIX=latest
 FROM laradock/php-fpm:${BASE_IMAGE_TAG_PREFIX}-${LARADOCK_PHP_VERSION}
 
 LABEL maintainer="Yifans_Z <168@yifans.com>"
 
-ARG LARADOCK_PHP_VERSION=7.1
+ARG LARADOCK_PHP_VERSION=8.2
 
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
-
-# YIFAN upgrade pear
-RUN pear version
-RUN set -eux; \
-    pear upgrade --force pear
 
 # always run apt update when start and after add new source list, then clean up at end.
 RUN set -xe; \
@@ -136,7 +131,7 @@ RUN set -eux; \
   if [ ${INSTALL_SWOOLE} = true ]; then \
       # Install Php Swoole Extension
       # YIFAN
-      echo '' | pecl -q install -D 'enable-openssl="yes" enable-http2="yes" enable-mysqlnd="yes"' swoole-4.5.11; \
+      echo '' | pecl -q install -D 'enable-openssl="yes" enable-http2="yes" enable-mysqlnd="yes"' swoole; \
       docker-php-ext-enable swoole; \
       php -m | grep -q 'swoole'; \
   fi

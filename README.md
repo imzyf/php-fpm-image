@@ -24,6 +24,10 @@ docker buildx build -f=Dockerfile-8.1 -t yifans/php-fpm:main-8.1 --platform=linu
 docker buildx build -f=Dockerfile-my-8.1 -t yifans/php-fpm:arm-my-8.1 . --push
 ```
 
+## NOTE
+
+- `Dockerfile-my-8.1` `Dockerfile-my-8.2` 只相差版本号。
+
 ## ARM
 
 ```bash

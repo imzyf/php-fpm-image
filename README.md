@@ -7,21 +7,14 @@
 ## laradock/php-fpm Origin
 
 - <https://github.com/laradock/laradock/tree/master/php-fpm>
-- <https://github.com/laradock/php-fpm>
-- <https://raw.githubusercontent.com/laradock/php-fpm/master/Dockerfile-7.1>
-- <https://raw.githubusercontent.com/laradock/php-fpm/master/Dockerfile-7.4>
-- <https://raw.githubusercontent.com/laradock/php-fpm/master/Dockerfile-8.1>
+- <https://github.com/laradock/laradock/blob/master/php-fpm/Dockerfile>
+- <https://raw.githubusercontent.com/laradock/php-fpm/master/Dockerfile-8.2>
 
 ```bash
-docker build -f=Dockerfile-my-7.1 ./.
 docker build -f=Dockerfile-my-7.4 ./.
 docker build -f=Dockerfile-my-8.1 ./.
 
-docker buildx build -f=Dockerfile-7.1 -t yifans/php-fpm:main-7.1 --platform=linux/arm64,linux/amd64 . --push
 docker buildx build -f=Dockerfile-8.1 -t yifans/php-fpm:main-8.1 --platform=linux/arm64,linux/amd64 . --push
-
-
-docker buildx build -f=Dockerfile-my-8.1 -t yifans/php-fpm:arm-my-8.1 . --push
 ```
 
 ## NOTE
@@ -31,17 +24,12 @@ docker buildx build -f=Dockerfile-my-8.1 -t yifans/php-fpm:arm-my-8.1 . --push
 ## ARM
 
 ```bash
-docker buildx build -f=Dockerfile-my-8.1 -t yifans/php-fpm:arm-my-8.1 . --push
-
-```
-
-```bash
 uname -a
 cat /proc/version
 cat /etc/issue
 ```
 
-```
+```bash
 /etc/init.d/cron start
 echo '* * * * * echo 22 >> /tmp/xxx.txt' > /etc/cron.d/crontab
 ```
